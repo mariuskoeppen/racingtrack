@@ -1,0 +1,172 @@
+html, body {
+  color: #eee;
+  background-color: rgb(51, 51, 51);
+  font-size: 1rem;
+  font-family: 'Solway', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+table, th, td, tr {
+  border-collapse: collapse;
+  border: 1px solid #eeeeee80;
+  text-align: center;
+  padding: 0.5em 1.1em;
+}
+
+table {
+  border: 2px solid #eee;
+  box-shadow: 0 0 7px 0px #101010;
+}
+
+table th {
+  background: #eee;
+  color: rgb(51, 51, 51);
+  font-weight: 700;
+}
+
+table tr:nth-child(odd) {
+  background-color: #eeeeee10;
+}
+
+table td:nth-child(2) {
+  font-weight: 200;
+}
+
+
+
+#app {
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: min-content auto;
+  justify-items: stretch;
+  height: 100%;
+}
+
+
+#info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
+.shape_select {
+  padding: 2em;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(max-content, 1fr));
+  grid-gap: .2em;
+  align-items: start;
+  justify-items: start;
+}
+
+.shape_select .shape_container {
+  padding: .5em 1.2em .5em 3em;
+}
+
+.shape_select .shape_container label {
+  cursor: pointer;
+  display: block;
+  position: relative;
+  color: #ddd;
+  font-weight: 800;
+  transition: all 250ms linear;
+  -webkit-transition: all 250ms linear;
+}
+
+.shape_select .shape_container input[type=radio] {
+  cursor: pointer;
+  position: absolute;
+  visibility: hidden;
+  transition: all 250ms linear;
+  -webkit-transition: all 250ms linear;
+}
+
+.shape_select .shape_container:hover label {
+  color: #eee;
+}
+
+.shape_select .shape_container input[type=radio]::before {
+  display: block;
+  visibility: visible;
+  position: absolute;
+  content: '';
+  border-radius: 100%;
+  height: .5em;
+  width: .5em;
+  top: 0.25em;
+  right: 2em;
+  margin: auto;
+  background-color: #eeeeee30;
+  border: 1px solid transparent;
+  transition: all 250ms linear;
+  -webkit-transition: all 250ms linear;
+}
+
+.shape_select .shape_container input[type=radio]:hover::before,
+.shape_select .shape_container:hover input[type=radio]::before {
+  background-color: #eeeeee70;
+  transition: all 250ms linear;
+  -webkit-transition: all 250ms linear;
+}
+
+.shape_select .shape_container input[type=radio]:checked::before {
+  background-color: #e91e63;
+  transition: all 250ms linear;
+  -webkit-transition: all 250ms linear;
+}
+
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 2em;
+  justify-items: stretch;
+  align-items: center;
+  grid-gap: 2em;
+}
+
+.options span {
+  font-weight: 200;
+  color: #ddd;
+  background-color: #eeeeee20;
+  border-radius: 5px;
+  padding: .3em 1em;
+  text-align: center;
+}
+
+
+#canvas {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  justify-items: center;
+  align-items: center;
+}
+
+
+
+.source_link {
+  position: fixed;
+  right: 1.5em;
+  bottom: 1em;
+  color: #ccc;
+  font-style: italic;
+  font-weight: 200;
+  font-size: 0.9em;
+  transition: all 250ms linear;
+  -webkit-transition: all 250ms linear;
+}
+
+.source_link a,
+.source_link a:visited,
+.source_link a:link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.source_link:hover {
+  color: #eee;
+  text-shadow: 1px 1px 4px #bbb;
+}

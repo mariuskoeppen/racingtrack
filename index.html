@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Racing track</title>
+
+    <!-- Include libraries -->
+    <!-- p5.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <!-- mediator.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/mediator-js@0.11.0/mediator.min.js"></script> -->
+    <!-- vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <!-- Include scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/racingtrack.js"></script>
+    <script src="js/street.js"></script>
+    <script src="js/population.js"></script>
+    <script src="js/vehicle.js"></script>
+    <script src="js/shape.js"></script>
+    <script src="js/extras.js"></script>
+
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Solway:300,400,700&display=swap" rel="stylesheet">
+
+
+  </head>
+  <body>
+
+    <div id="app">
+        <div class="shape_select">
+          <template v-for="(shape, index) in available_shapes">
+            <div class="shape_container">
+              <input v-on:change="shape_switched" v-model="selected_shape" name="shape_selection" type="radio" :id="shape.name" :value="index">
+              <label :for="shape.name">{{shape.name}}</label>
+            </div>
+          </template>
+        </div>
+
+        <div class="options">
+          <span>{{average_framerate}} fps</span>
+          <span>{{time_format(population.time_running, 'second', 2)}}</span>
+        </div>
+
+        <div id="canvas"></div>
+
+        <div id="info">
+
+          <div class="best_vehicle">
+            <table>
+              <tr>
+                <th>Best vehicle</th>
+                <th>Value</th>
+              </tr>
+              <tr>
+                <td>Laps</td>
+                <td>{{population.best_vehicle.lap}}</td>
+              </tr>
+              <tr>
+                <td>Fitness</td>
+                <td>{{round(population.best_vehicle.fitness)}}</td>
+              </tr>
+              <tr>
+                <td>Lifetime</td>
+                <td>{{population.best_vehicle.lifetime}}</td>
+              </tr>
+              <tr>
+                <td>Streets passed</td>
+                <td>{{round(population.best_vehicle.optimal_path_index)}}</td>
+              </tr>
+              <tr>
+                <td>Distance</td>
+                <td>{{round(population.best_vehicle.distance_traveled)}}</td>
+              </tr>
+              <tr>
+                <td>Generation</td>
+                <td>{{population.best_vehicle.generation}}</td>
+              </tr>
+              <tr>
+                <td>Children</td>
+                <td>{{population.best_vehicle.children}}</td>
+              </tr>
+              <tr>
+                <td># of thrusters</td>
+                <td>{{population.best_vehicle.path.length}}</td>
+              </tr>
+            </table>
+          </div> <!-- END BEST vehcile stats -->
+
+          <div class="population_stats">
+            <table>
+              <tr>
+                <th>Population</th>
+                <th>Value</th>
+              </tr>
+              <tr>
+                <td>Size</td>
+                <td>{{population.size}}</td>
+              </tr>
+              <tr>
+                <td>Mutation rate</td>
+                <td>{{CROSSOVER.MUTATION_RATE*100}}%</td>
+              </tr>
+              <tr>
+                <td>Dynasty</td>
+                <td>{{population.dynasty}}</td>
+              </tr>
+              <!-- <tr>
+                <td>Time running</td>
+                <td>{{time_format(population.time_running, 'second', 2, true)}}</td>
+              </tr> -->
+              <tr>
+                <td>Survivors</td>
+                <td>{{population.survivors}}</td>
+              </tr>
+              <tr>
+                <td>Average fitness</td>
+                <td>{{round(100 * population.average_fitness / population.best_fitness)}}%</td>
+              </tr>
+            </table>
+          </div> <!-- END population stats-->
+
+        </div> <!-- END info -->
+    </div> <!-- END APP-->
+
+    <div class="source_link">
+      <a href="#" target="_blank" title="Source code">View on GitHub</a>
+    </div>
+  </body>
+</html>
