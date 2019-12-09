@@ -3,7 +3,7 @@ const MAX_SPEED = 5;
 
 const CROSSOVER = {
   VEC: 'lerp',
-  MUTATION_RATE: 0.0012,
+  MUTATION_RATE: 0.001,
   NORMALIZE: true,
 }
 
@@ -112,7 +112,7 @@ Vehicle.prototype.crossover = function(vehicle) {
   // generate probability based on fitness
   const split = this.fitness / (abs(this.fitness) + abs(vehicle.fitness));
   let new_genes = [];
-  const len = constrain(floor(lerp(this.path.length, vehicle.path.length, 1-split) + random(-.1*this.path.length, .1*this.path.length)), 10, Infinity);
+  const len = constrain(floor(lerp(this.path.length, vehicle.path.length, 1-split) + random(-.2*this.path.length, .2*this.path.length)), 10, Infinity);
 
   for(let i = 0; i < len; i++) {
     let vec = null;
@@ -179,11 +179,11 @@ Vehicle.prototype.check_optimal_path = function() {
 
   if(street_ref === my_ref + 1) { // I am one street further in right direction
     this.optimal_path_index++;
-    this.increase_fitness(1.5);
+    this.increase_fitness(2);
 
     // Check distance to path
     const dist = distance_point_line(this.pos, closest_street.pos, closest_street.direction);
-    this.increase_fitness(map(dist, 0, closest_street.width, 0.5, 0));
+    this.increase_fitness(map(dist, 0, closest_street.width, 0.25, 0));
 
     if(street_ind === highest_index) {
       this.lap++;
