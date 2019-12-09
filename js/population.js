@@ -46,7 +46,7 @@ class Population {
 
 
 Population.prototype.pick_random = function() {
-	const total_fitness = this.pop.reduce((acc, curr) => acc + curr.fitness, 0);
+	const total_fitness = this.pop.reduce((acc, curr) => acc + abs(curr.fitness), 0);
   // const total_fitness = this.best_fitness;
 	let r_ind = 0;
 	let r_num = 0;
