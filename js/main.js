@@ -1,12 +1,13 @@
-let SPEED = 100;
+let SKIPPER = 1;
+let SPEED = 1;
+
 
 let track;
 let population;
 let vue;
 let shapes;
-let selected_shape = 0;
+let selected_shape = 2;
 let death_color;
-let framerates = [];
 
 function setup() {
   let canvas = createCanvas(600, 600);
@@ -14,7 +15,7 @@ function setup() {
   death_color = color(240, 0, 50, 0.3*255);
 
   shapes = create_shapes(200, 30);
-  initialize_all(shapes[0], 100);
+  initialize_all(shapes[selected_shape], 100);
 
   vue = new Vue({
     el: '#app',
@@ -22,19 +23,8 @@ function setup() {
       population,
       available_shapes: shapes,
       selected_shape,
-      framerates,
     },
     computed: {
-      average_framerate: function() {
-        const len = this.framerates.length;
-        const ref = 2 * ceil(this.framerates[0]) || 30;
-
-        if(len > ref) {
-          this.framerates.splice(ref);
-        }
-
-        return round(this.framerates.reduce((acc, curr) => acc + curr / len, 0))
-      },
     },
     methods: {
       shape_switched: function() {
@@ -48,14 +38,20 @@ function setup() {
   canvas.parent('canvas');
 }
 
-function draw() {
-  background(51);
-
-  framerates.unshift(frameRate());
-
-
-  track.show();
-  population.update();
+async function draw() {
+  if(population.dynasty % SKIPPER === 0) {
+    population.update();
+    background(51);
+    track.show();
+    population.show();
+  } else {
+    for(let i = 0; i < SPEED && population.dynasty % SKIPPER !== 0; i++) {
+      population.update();
+    }
+    background(51);
+    track.show();
+    population.show();
+  }
 }
 
 

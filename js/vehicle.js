@@ -44,7 +44,7 @@ class Vehicle {
   }
 
   get fitness() {
-    return log(this.lifetime+1)/10 + 0.5 * this.distance_traveled + 20 * this.fitness_lookup;
+    return log(this.lifetime+1)/10 + 0.2 * this.distance_traveled + 20 * this.fitness_lookup;
   }
 }
 
@@ -64,14 +64,14 @@ Vehicle.prototype.reset = function() {
   this.acc= createVector(0, 0);
 }
 
-Vehicle.prototype.steer = function() {
+Vehicle.prototype.steer = async function() {
   const force = this.path[this.path_index];
   this.apply_force(force);
   this.path_index++;
   if(this.path_index >= this.path.length-1) this.path_index = 0;
 }
 
-Vehicle.prototype.update = function() {
+Vehicle.prototype.update = async function() {
   if(this.alive) {
     this.steer();
     this.move();
@@ -79,10 +79,9 @@ Vehicle.prototype.update = function() {
     this.check_optimal_path();
     this.lifetime++;
   }
-  this.show();
 }
 
-Vehicle.prototype.live = function() {
+Vehicle.prototype.live = async function() {
   const hit_wall = (track.check_walls(this));
   if(hit_wall) {
     this.alive = false;
@@ -96,7 +95,7 @@ Vehicle.prototype.live = function() {
   }
 }
 
-Vehicle.prototype.increase_fitness = function(val) {
+Vehicle.prototype.increase_fitness = async function(val) {
   this.fitness_lookup += val;
 }
 
@@ -156,18 +155,18 @@ Vehicle.prototype.crossover = function(vehicle) {
   return v;
 }
 
-Vehicle.prototype.apply_force = function(force) {
+Vehicle.prototype.apply_force = async function(force) {
   this.acc.add(force);
   this.acc.limit(MAX_ACC);
 }
 
-Vehicle.prototype.move = function() {
+Vehicle.prototype.move = async function() {
   this.vel.add(this.acc).limit(MAX_SPEED)
   this.pos.add(this.vel);
   this.distance_traveled += this.vel.mag();
 }
 
-Vehicle.prototype.check_optimal_path = function() {
+Vehicle.prototype.check_optimal_path = async function() {
   // Find the closest street
   const closest_street = track.find_closest(this);
   const highest_index = track.track[track.track.length-1].index;
@@ -190,15 +189,18 @@ Vehicle.prototype.check_optimal_path = function() {
       this.optimal_path_index = 0;
       this.increase_fitness(0.30 * 1.5 * highest_index);
     }
+    if(street_ind === 0) {
+      // Cut of path after full rotation
+      this.path_index = 0;
+    }
   } else if(street_ref === my_ref) {
     // Do nothing
   } else {
     this.increase_fitness(-1);
   }
-
 }
 
-Vehicle.prototype.show = function() {
+Vehicle.prototype.show = async function() {
   push();
   translate(this.pos.x, this.pos.y);
   rotate(this.vel.heading() - PI/2);
@@ -215,7 +217,7 @@ Vehicle.prototype.show = function() {
   beginShape();
   vertex(0, 12);
   vertex(4, -3);
-  vertex(0, -4)
+  vertex(0, -1);
   vertex(-4, -3);
   endShape();
   point(0, 0)
