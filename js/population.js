@@ -65,7 +65,7 @@ Population.prototype.create_pop = function(size) {
   }
 }
 
-Population.prototype.recreate_pop = function() {
+Population.prototype.recreate_pop = async function() {
   const len = this.pop.length;
   this.pop.sort((a, b) => b.fitness - a.fitness);
   // Filter out the worst 10% of the population to exclude from reproduction
@@ -92,8 +92,10 @@ Population.prototype.recreate_pop = function() {
   this.dynasty++;
 }
 
-Population.prototype.update = function() {
-  this.show();
+Population.prototype.update = async function() {
+  for(let v of this.pop) {
+    v.update();
+  }
 
   // Check if population has died out
   const red_pop = this.pop.filter((v) => v.alive);
@@ -104,6 +106,6 @@ Population.prototype.update = function() {
 
 Population.prototype.show = function() {
   for(let v of this.pop) {
-    v.update();
+    v.show();
   }
 }

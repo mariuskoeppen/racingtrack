@@ -43,6 +43,8 @@
         </div>
 
         <div class="options">
+          <!-- <input v-model="SKIPPER" type="range" min="1" max="25" step="1">
+          <span>{{SKIPPER}}</span> -->
           <!-- <span>{{average_framerate}} fps</span>
           <span>{{time_format(population.time_running, 'second', 2)}}</span> -->
         </div>
@@ -110,10 +112,6 @@
                 <td>Dynasty</td>
                 <td>{{population.dynasty}}</td>
               </tr>
-              <!-- <tr>
-                <td>Time running</td>
-                <td>{{time_format(population.time_running, 'second', 2, true)}}</td>
-              </tr> -->
               <tr>
                 <td>Survivors</td>
                 <td>{{population.survivors}}</td>
@@ -129,7 +127,7 @@
     </div> <!-- END APP-->
 
     <div class="source_link">
-      <a href="https://github.com/mariuskoeppen/racingtrack" target="_blank" title="Source code">View source code on GitHub</a>
+      <a href="https://github.com/mariuskoeppen/racingtrack" target="_blank" title="Source code">View code on GitHub</a>
     </div>
   </body>
 </html>

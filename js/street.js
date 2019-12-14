@@ -6,36 +6,55 @@ class Street {
     this.index = index;
   }
 
-  get offsets() {
-    const ptLeft = this.pos.copy().add(p5.Vector.fromAngle(this.direction.heading() - PI/2, this.width))
-    const ptRight = this.pos.copy().add(p5.Vector.fromAngle(this.direction.heading() + PI/2, this.width))
-
-    return {right: ptRight, left: ptLeft}
-  }
-
-  get bounds() {
-    // Calculate the offset point
-    const {left, right} = this.offsets;
-
-    // Calculate for next
-    const offs_next = this.next.offsets;
-    // Find the intersections left
-    const inter_next_left = line_intersection(left, this.direction, offs_next.left, this.next.direction);
-    // Find the intersections right
-    const inter_next_right = line_intersection(right, this.direction, offs_next.right, this.next.direction);
-
-    return {left: inter_next_left, right: inter_next_right};
-  }
 
   get direction() {
-    if(this.next && this.previous) {
-      const dirN = this.next.pos.copy().sub(this.pos);
-      const dirP = this.previous.pos.copy().sub(this.pos);
-      const perpV = dirN.sub(dirP);
-      const head = perpV.rotate(PI);
-      return head;
+    if(this.stored_direction) {
+      return this.stored_direction;
     } else {
-      return console.warn('Cannot calculate direction. Street has either no previous or next street. ')
+      if(this.next && this.previous) {
+        const dirN = this.next.pos.copy().sub(this.pos);
+        const dirP = this.previous.pos.copy().sub(this.pos);
+        const perpV = dirN.sub(dirP);
+        const head = perpV.rotate(PI);
+        this.stored_direction = head;
+        return head;
+      } else {
+        return console.warn('Cannot calculate direction. Street has either no previous or next street. ')
+      }
+    }
+  }
+
+
+  get offsets() {
+    if(this.stored_offsets) {
+      return this.stored_offsets;
+    } else {
+      const ptLeft = this.pos.copy().add(p5.Vector.fromAngle(this.direction.heading() - PI/2, this.width))
+      const ptRight = this.pos.copy().add(p5.Vector.fromAngle(this.direction.heading() + PI/2, this.width))
+      const offs = {right: ptRight, left: ptLeft};
+      this.stored_offsets = offs;
+      return offs;
+    }
+  }
+
+
+  get bounds() {
+    if(this.stored_bounds) {
+      return this.stored_bounds;
+    } else {
+      // Calculate the offset point
+      const {left, right} = this.offsets;
+
+      // Calculate for next
+      const offs_next = this.next.offsets;
+      // Find the intersections left
+      const inter_next_left = line_intersection(left, this.direction, offs_next.left, this.next.direction);
+      // Find the intersections right
+      const inter_next_right = line_intersection(right, this.direction, offs_next.right, this.next.direction);
+
+      const bounds = {left: inter_next_left, right: inter_next_right};
+      this.stored_bounds = bounds;
+      return bounds;
     }
   }
 }

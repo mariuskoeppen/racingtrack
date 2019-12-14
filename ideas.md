@@ -16,3 +16,10 @@
 - be able to change population size
 - be able to create own tracks!
   * drag street points
+- improve performance
+  * finding the closest street to a vehicle
+    * assume optimal_path_index street to be closest
+    * recursively check next and previous street
+    * if closer, check recursion, else reject
+- have mutations towards the end rather than the beginning
+- enable _force next dynasty_ and similar

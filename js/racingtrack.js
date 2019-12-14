@@ -26,15 +26,17 @@ RacingTrack.prototype.new_track = function(shape, width = 50) {
 
   let track = [];
 
-
   for(let i = 0; i < shape.points.length; i++) {
     const pt = shape.points[i];
     const pos = createVector(pt.x, pt.y).add(this.center);
 
     const street = new Street(pos, width, i);
-    street.connect(previous);
 
-    if(i === 0) first = street;
+    if(i === 0) {
+      first = street
+    } else {
+      street.connect(previous);
+    };
     track.push(street);
     previous = street;
   }
